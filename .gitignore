@@ -1,0 +1,9 @@
+
+#ignore thumbnails created by windows
+*.classpath
+*.settings
+*.project
+bin/
+local.properties
+.idea/
+*.iml
