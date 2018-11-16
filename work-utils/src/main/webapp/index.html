@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>home</title>
+<link rel="stylesheet" href="css/styles.css" />
+<style>
+body {
+	font-family: "Times New Roman", Georgia, Serif;
+	background-color: #a2afbe;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Playfair Display";
+	letter-spacing: 5px;
+}
+</style>
+</head>
+<body>
+
+	<!-- Navbar (sit on top) -->
+	<div class="w3-top">
+		<div class="w3-bar w3-white w3-padding w3-card"
+			style="letter-spacing: 4px;">
+			<a href="#home" class="w3-bar-item w3-button">Sunil Home</a>
+			<!-- Right-sided navbar links. Hide them on small screens -->
+			<div class="w3-right w3-hide-small">
+				<a href="#menu" class="w3-bar-item w3-button">Menu</a> <a
+					href="#contact" class="w3-bar-item w3-button">Contact</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Header -->
+	<header class="w3-display-container w3-content w3-wide"
+		style="max-width: 1600px; min-width: 500px" id="home">
+		<img class="w3-image" src="assert/home.jpg" alt="Pen Image"
+			width="1600" height="800">
+		<div class="w3-display-bottomleft w3-padding-large w3-opacity">
+			<h1 class="w3-xxlarge">Simplify Life</h1>
+		</div>
+	</header>
+
+	<!-- Page content -->
+	<div class="w3-content" style="max-width: 1100px">
+
+		<!-- Menu Section -->
+		<div class="w3-row w3-padding-64" id="menu">
+			<div class="w3-col l4 w3-padding-large w3-center w3-dropdown-click"
+				id="daily_status_report">
+				<img src="assert/img_status.png"
+					class="w3-round w3-image w3-opacity-min" alt="Status">
+				<h6>Daily Status Report</h6>
+			</div>
+
+			<div class="w3-col l4 w3-padding-large w3-center">
+				<img src="assert/img_coming_soon.png"
+					class="w3-round w3-image w3-opacity-min" alt="Status">
+				<h6>Coming soon</h6>
+			</div>
+
+			<div class="w3-col l4 w3-padding-large w3-center">
+				<img src="assert/img_coming_soon.png"
+					class="w3-round w3-image w3-opacity-min" alt="Status">
+				<h6>Coming Soon</h6>
+			</div>
+		</div>
+
+		<hr>
+
+		<!-- Contact Section -->
+		<div class="w3-container w3-padding-64" id="contact">
+			<h1>Contact</h1>
+			<br>
+			<p class="w3-text-blue-grey w3-large">
+				<b>Sunil Kumar Sahu</b> <br> <b>Email: sks.bhp88@gmail.com</b>
+				<br> <b>Phone: +91 8148119655</b>
+			</p>
+		</div>
+
+		<!-- End page content -->
+	</div>
+
+	<!-- Footer -->
+	<footer class="w3-center w3-light-grey w3-padding-4">
+		<p>Copyright sks.bhp88@gmail.com 2018</p>
+	</footer>
+
+
+	<!-- Javascript -->
+	<script>
+		document.getElementById("daily_status_report").addEventListener(
+				"click", showDsrCreater);
+		function showDsrCreater() {
+			location.href = "dsrcreater.html";
+		}
+	</script>
+</body>
+</html>
+
