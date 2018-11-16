@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,16 +41,19 @@ h1, h2, h3, h4, h5, h6 {
 		<h1 class="w3-center w3-padding-64">DSR Generator</h1>
 
 		<hr>
+		<form method="POST" action="/create">
 
-		<textarea class="w3-col l5 w3-padding-large" rows="30"> </textarea>
-		<div class="w3-col l1 w3-padding-large">
-			<img src="assert/img_right_arrow.png"
-				class="w3-round w3-image w3-opacity-min" alt="Arrow"
-				style="width: 100%">
-		</div>
-		<textarea class="w3-col l5 w3-padding-large" rows="30"> </textarea>
-
-	</div>
+			<textarea class="w3-col l5 w3-padding-large" rows="30"
+				name="input_str"> </textarea>
+			<div class="w3-col l1 w3-padding-large w3-dropdown-click"
+				id="dsr_generate" onClick="document.forms[0].submit();">
+				<img src="assert/img_right_arrow.png"
+					class="w3-round w3-image w3-opacity-min" alt="Arrow"
+					style="width: 100%">
+			</div>
+			<textarea class="w3-col l5 w3-padding-large" rows="30"
+				name="output_str"> </textarea>
+		</form>
 
 	</div>
 

@@ -29,11 +29,27 @@ progress {
 	vertical-align: baseline
 }
 
-audio:not ([controls] ){
-	display: none;
-	height: 0
-}
+audio
+:not
+ 
+(
+[
+controls
+]
+ 
+){
+display
+:
+ 
+none
+;
 
+	
+height
+:
+ 
+0
+}
 [hidden], template {
 	display: none
 }
@@ -89,10 +105,20 @@ img {
 	border-style: none
 }
 
-svg:not (:root ){
-	overflow: hidden
-}
+svg
+:not
+ 
+(
+:root
+ 
+){
+overflow
+:
+ 
+hidden
 
+
+}
 code, kbd, pre, samp {
 	font-family: monospace, monospace;
 	font-size: 1em
@@ -1007,7 +1033,11 @@ keyframes w3-spin { 0%{
 
 100%{
 transform
+
+
 :rotate(359deg)
+
+
 }
 }
 .w3-animate-fading {
@@ -1021,12 +1051,20 @@ keyframes fading { 0%{
 
 50%{
 opacity
+
+
 :
+
+
 1
 }
 100%{
 opacity
+
+
 :
+
+
 0
 }
 }
