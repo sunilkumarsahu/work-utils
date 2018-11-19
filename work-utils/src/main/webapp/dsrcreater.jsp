@@ -44,15 +44,14 @@ h1, h2, h3, h4, h5, h6 {
 		<form method="POST" action="/create">
 
 			<textarea class="w3-col l5 w3-padding-large" rows="30"
-				name="input_str"> </textarea>
+				name="input_str"> ${cr_input} </textarea>
 			<div class="w3-col l1 w3-padding-large w3-dropdown-click"
 				id="dsr_generate" onClick="document.forms[0].submit();">
 				<img src="assert/img_right_arrow.png"
 					class="w3-round w3-image w3-opacity-min" alt="Arrow"
 					style="width: 100%">
 			</div>
-			<textarea class="w3-col l5 w3-padding-large" rows="30"
-				name="output_str"> </textarea>
+			<textarea class="w3-col l5 w3-padding-large" rows="30"> ${mail} </textarea>
 		</form>
 
 	</div>
