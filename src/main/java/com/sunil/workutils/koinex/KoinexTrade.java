@@ -45,7 +45,7 @@ public class KoinexTrade {
 		throw new RuntimeException("No price available for the coin " + coinType);
 	}
 
-	public void startTrade(double principalInr) {
+	public ArrayList<Trade> startTrade(double principalInr) {
 		ArrayList<Trade> trades = new ArrayList<>();
 		ArrayList<CoinInr> coinsInInr = koinexDataFetcher.getCoinInInr();
 		for (CoinInr coinInr : coinsInInr) {
@@ -144,19 +144,13 @@ public class KoinexTrade {
 			}
 		}
 
-		// Print
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		trades.sort(new Comparator<Trade>() {
 			@Override
 			public int compare(Trade o1, Trade o2) {
 				return (int) (o2.getProfit() - o1.getProfit());
 			}
 		});
-		for (Trade trade : trades) {
-			System.out.println(trade);
-			System.out.println("==============================================================");
-		}
-
+		return trades;
 	}
 
 	public static void main(String[] args) {

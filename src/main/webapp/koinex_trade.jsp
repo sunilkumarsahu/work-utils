@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>koinex_trade</title>
@@ -41,11 +42,33 @@ h1, h2, h3, h4, h5, h6 {
 
 		<hr>
 		<form method="POST" action="/trade">
-			<div class="w3-col w3-xlarge">
+			<div class="w3-col w3-xlarge w3-padding-large">
 				Principal amount in INR: <input type="text" name="principal_amount"
 					value="${principal}">
 				<button class="btn success" onClick="document.forms[0].submit();">Trade</button>
 			</div>
+
+			<table class="w3-padding-large" border="4" style="width: 100%">
+				<tr>
+					<th>Coin1 (buy with INR)</th>
+					<th>Coin1 Volume</th>
+					<th>Coin2 (buy with Coin1)</th>
+					<th>Coin2 Volume</th>
+					<th>Sell Price</th>
+					<th>Profit in INR</th>
+				</tr>
+
+				<c:forEach items="${trades}" var="trade">
+					<tr>
+						<td align="center">${trade.coinOneName}</td>
+						<td align="center">${trade.coinOneVolume}</td>
+						<td align="center">${trade.coinTwoName}</td>
+						<td align="center">${trade.coinTwoVolume}</td>
+						<td align="center">${trade.soldInInr}</td>
+						<td align="center">${trade.profit}</td>
+					</tr>
+				</c:forEach>
+			</table>
 		</form>
 	</div>
 
