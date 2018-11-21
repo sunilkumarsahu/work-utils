@@ -45,7 +45,7 @@ public class KoinexTrade {
 		throw new RuntimeException("No price available for the coin " + coinType);
 	}
 
-	private void startTrade(double principalInr) {
+	public void startTrade(double principalInr) {
 		ArrayList<Trade> trades = new ArrayList<>();
 		ArrayList<CoinInr> coinsInInr = koinexDataFetcher.getCoinInInr();
 		for (CoinInr coinInr : coinsInInr) {

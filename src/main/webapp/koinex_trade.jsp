@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>dsr_creator</title>
+<title>koinex_trade</title>
 <link rel="stylesheet" href="css/styles.css" />
 <style>
 body {
@@ -35,29 +35,18 @@ h1, h2, h3, h4, h5, h6 {
 		</div>
 	</div>
 
-
 	<!-- Page content -->
 	<div class="w3-content" style="max-width: 1100px">
-		<h1 class="w3-center w3-padding-64">DSR Generator</h1>
+		<h1 class="w3-center w3-padding-64">Koinex Trade Window</h1>
 
 		<hr>
-		<div class="w3-col l6 w3-text-teal">Open Critique home, select
-			all and paste in below text area as simple string.</div>
-		<div class="w3-col l6 w3-text-teal">DSR mail</div>
-		<form method="POST" action="/create">
-
-			<textarea class="w3-col l5 w3-padding-large" rows="30"
-				name="input_str"
-				placeholder="Open Critique home, select all and paste here as text."> ${cr_input} </textarea>
-			<div class="w3-col l1 w3-padding-large w3-dropdown-click"
-				id="dsr_generate" onClick="document.forms[0].submit();">
-				<img src="assert/img_right_arrow.png"
-					class="w3-round w3-image w3-opacity-min" alt="Arrow"
-					style="width: 100%">
+		<form method="POST" action="/trade">
+			<div class="w3-col w3-xlarge">
+				Principal amount in INR: <input type="text" name="principal_amount"
+					value="${principal}">
+				<button class="btn success" onClick="document.forms[0].submit();">Trade</button>
 			</div>
-			<textarea class="w3-col l5 w3-padding-large" rows="30"> ${mail} </textarea>
 		</form>
-
 	</div>
 
 	<!-- Footer -->

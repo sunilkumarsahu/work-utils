@@ -55,10 +55,11 @@ h1, h2, h3, h4, h5, h6 {
 				<h6>Daily Status Report</h6>
 			</div>
 
-			<div class="w3-col l4 w3-padding-large w3-center">
-				<img src="assert/img_coming_soon.png"
+			<div class="w3-col l4 w3-padding-large w3-center w3-dropdown-click"
+				id="btn_koinex_trade">
+				<img src="assert/img_koinex.png"
 					class="w3-round w3-image w3-opacity-min" alt="Status">
-				<h6>Coming soon</h6>
+				<h6>Koinex Trade</h6>
 			</div>
 
 			<div class="w3-col l4 w3-padding-large w3-center">
@@ -95,6 +96,12 @@ h1, h2, h3, h4, h5, h6 {
 				"click", showDsrCreater);
 		function showDsrCreater() {
 			location.href = "./dsrcreater.jsp";
+		}
+
+		document.getElementById("btn_koinex_trade").addEventListener("click",
+				showKoinexTradeWindow);
+		function showKoinexTradeWindow() {
+			location.href = "./koinex_trade.jsp";
 		}
 	</script>
 </body>
