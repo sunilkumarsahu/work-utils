@@ -1364,6 +1364,10 @@ to {
 	margin-right: 16px !important
 }
 
+.w3-margin-table {
+	margin-bottom: 200px
+}
+
 .w3-padding-small {
 	padding: 4px 8px !important
 }
@@ -1374,11 +1378,6 @@ to {
 
 .w3-padding-large {
 	padding: 12px 24px !important
-}
-
-.w3-padding-table {
-	padding-top: 8px;
-	padding-bottom: 60px
 }
 
 .w3-padding-16 {

@@ -166,7 +166,7 @@ h1, h2, h3, h4, h5, h6 {
 				</label>
 			</div>
 
-			<table class="w3-padding-table" border="4" style="width: 100%">
+			<table class="w3-padding w3-margin-table" border="4" style="width: 100%">
 				<tr>
 					<th>Coin1 (buy with INR)</th>
 					<th>Coin1 Volume</th>
