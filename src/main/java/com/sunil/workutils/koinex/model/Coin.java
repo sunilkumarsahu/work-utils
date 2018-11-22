@@ -31,6 +31,7 @@ public class Coin {
 
 	@Override
 	public String toString() {
-		return name + "  :  LT: " + lastTradedPrice + "  :  HB: " + highestBidPrice + "  :  LA: " + lowestAskPrice;
+		return name + "  :  LT: " + lastTradedPrice + "  :  HB: " + highestBidPrice + "  :  LA: "
+		    + lowestAskPrice;
 	}
 }
