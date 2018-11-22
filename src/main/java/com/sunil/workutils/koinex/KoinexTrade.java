@@ -19,6 +19,14 @@ public class KoinexTrade {
 			add("BTC");
 			add("ETH");
 			add("XRP");
+			// More coins
+			add("LTC");
+			add("TUSD");
+			add("NCASH");
+			add("OMG");
+			add("EOS");
+			add("ZCO");
+			add("BCHABC");
 		}
 	};
 
@@ -28,6 +36,14 @@ public class KoinexTrade {
 			add("BTC");
 			add("ETH");
 			add("XRP");
+			// More coins
+			add("LTC");
+			add("TUSD");
+			add("NCASH");
+			add("OMG");
+			add("EOS");
+			add("ZCO");
+			add("BCHABC");
 		}
 	};
 

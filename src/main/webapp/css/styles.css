@@ -1376,6 +1376,11 @@ to {
 	padding: 12px 24px !important
 }
 
+.w3-padding-table {
+	padding-top: 8px;
+	padding-bottom: 60px
+}
+
 .w3-padding-16 {
 	padding-top: 16px !important;
 	padding-bottom: 16px !important
