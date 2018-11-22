@@ -65,20 +65,19 @@ public class KoinexTrade {
 	}
 
 	private void doTrade(String marketName, String coinOneName, double coinOneVolume, ArrayList<? extends Coin> coinsIn,
-			ArrayList<CoinInr> coinsInInr, double principalInr, ArrayList<Trade> trades) {
+	    ArrayList<CoinInr> coinsInInr, double principalInr, ArrayList<Trade> trades) {
 		if (coinOneName.equals(marketName)) {
 			// Buy other coin with Market coin.
 			for (Coin coin : coinsIn) {
 				String coinTwoName = coin.getName();
 				if (SUPPORTED_COIN_TO_TRADE.contains(coinTwoName)) {
-					double coinTwoVolume = coinOneVolume
-							/ (realTimeFetch ? coin.getLowestAskPrice() : coin.getLastTradedPrice());
+					double coinTwoVolume = coinOneVolume / (realTimeFetch ? coin.getLowestAskPrice() : coin.getLastTradedPrice());
 					// TODO(sunil) compute transaction fee.
 					double soldInInr = coinTwoVolume * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, coinTwoName)
-							: getLastTradePriceOf(coinsInInr, coinTwoName));
+					    : getLastTradePriceOf(coinsInInr, coinTwoName));
 					double profit = soldInInr - principalInr;
-					trades.add(new Trade(principalInr, coinOneName, coinOneVolume, coinTwoName, coinTwoVolume,
-							soldInInr, profit));
+					trades
+					    .add(new Trade(principalInr, coinOneName, coinOneVolume, coinTwoName, coinTwoVolume, soldInInr, profit));
 				}
 			}
 		} else {
@@ -90,10 +89,9 @@ public class KoinexTrade {
 					double coinTwoVolume = coinOneVolume * priceInMarketCoin;
 					// TODO(sunil) compute transaction fee.
 					double soldInInr = coinTwoVolume * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, marketName)
-							: getLastTradePriceOf(coinsInInr, marketName));
+					    : getLastTradePriceOf(coinsInInr, marketName));
 					double profit = soldInInr - principalInr;
-					trades.add(new Trade(principalInr, coinOneName, coinOneVolume, marketName, coinTwoVolume, soldInInr,
-							profit));
+					trades.add(new Trade(principalInr, coinOneName, coinOneVolume, marketName, coinTwoVolume, soldInInr, profit));
 				}
 			}
 		}

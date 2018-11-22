@@ -9,8 +9,8 @@ public class Trade {
 	private final double soldInInr;
 	private final double profit;
 
-	public Trade(double principalInr, String coinOneName, double coinOneVolume, String coinTwoName,
-			double coinTwoVolume, double soldInInr, double profit) {
+	public Trade(double principalInr, String coinOneName, double coinOneVolume, String coinTwoName, double coinTwoVolume,
+	    double soldInInr, double profit) {
 		this.principalInr = principalInr;
 		this.coinOneName = coinOneName;
 		this.coinOneVolume = coinOneVolume;

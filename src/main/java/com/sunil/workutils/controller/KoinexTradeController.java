@@ -16,7 +16,7 @@ public class KoinexTradeController {
 
 	@RequestMapping(value = "/trade", method = RequestMethod.POST)
 	public String create(Model model, @RequestParam("principal_amount") String input,
-			@RequestParam(value = "is_real_time", required = false) String isRealTime) {
+	    @RequestParam(value = "is_real_time", required = false) String isRealTime) {
 		KoinexTrade koinexTrade = new KoinexTrade();
 		koinexTrade.setRealTimeFetch(isRealTime != null);
 		double principalInr = Double.parseDouble(input);
