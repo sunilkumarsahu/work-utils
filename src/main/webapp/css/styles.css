@@ -30,24 +30,38 @@ progress {
 }
 
 audio
+
+
 :not
+
  
+
 (
 [
 controls
 ]
+
  
+
 ){
 display
-:
- 
-none
-;
 
-	
-height
+
 :
+
  
+
+none
+
+
+;
+height
+
+
+:
+
+ 
+
 0
 }
 [hidden], template {
@@ -106,16 +120,28 @@ img {
 }
 
 svg
+
+
 :not
+
  
+
 (
 :root
+
  
+
 ){
 overflow
+
+
 :
+
  
+
 hidden
+
+
 
 
 }
@@ -1035,7 +1061,11 @@ keyframes w3-spin { 0%{
 transform
 
 
+
+
 :rotate(359deg)
+
+
 
 
 }
@@ -1053,7 +1083,11 @@ keyframes fading { 0%{
 opacity
 
 
+
+
 :
+
+
 
 
 1
@@ -1062,7 +1096,11 @@ opacity
 opacity
 
 
+
+
 :
+
+
 
 
 0

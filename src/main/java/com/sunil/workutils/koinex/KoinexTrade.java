@@ -11,6 +11,7 @@ import com.sunil.workutils.koinex.model.CoinXrp;
 import com.sunil.workutils.koinex.model.Trade;
 
 public class KoinexTrade {
+	private boolean realTimeFetch = true;
 
 	// Add only the coins can be trade with other coins.
 	private static final ArrayList<String> SUPPORTED_COIN_BUY_WITH_INR = new ArrayList<String>() {
@@ -36,13 +37,31 @@ public class KoinexTrade {
 		koinexDataFetcher = new KoinexDataFetcher();
 	}
 
-	private double getPriceOf(ArrayList<? extends Coin> coins, String coinType) {
+	private double getLastTradePriceOf(ArrayList<? extends Coin> coins, String coinType) {
 		for (Coin coin : coins) {
 			if (coin.getName().equals(coinType)) {
-				return coin.getValue();
+				return coin.getLastTradedPrice();
 			}
 		}
 		throw new RuntimeException("No price available for the coin " + coinType);
+	}
+
+	private double getHighestBidPriceOf(ArrayList<? extends Coin> coins, String coinType) {
+		for (Coin coin : coins) {
+			if (coin.getName().equals(coinType)) {
+				return coin.getHighestBidPrice();
+			}
+		}
+		throw new RuntimeException("No highest bid available for the coin " + coinType);
+	}
+
+	private double getLowestAskPriceOf(ArrayList<? extends Coin> coins, String coinType) {
+		for (Coin coin : coins) {
+			if (coin.getName().equals(coinType)) {
+				return coin.getLowestAskPrice();
+			}
+		}
+		throw new RuntimeException("No highest bid available for the coin " + coinType);
 	}
 
 	public ArrayList<Trade> startTrade(double principalInr) {
@@ -52,7 +71,7 @@ public class KoinexTrade {
 			String coinOneName = coinInr.getName();
 			if (SUPPORTED_COIN_BUY_WITH_INR.contains(coinOneName)) {
 				// buy in inr
-				double coinPriceInInr = coinInr.getValue();
+				double coinPriceInInr = realTimeFetch ? coinInr.getLowestAskPrice() : coinInr.getLastTradedPrice();
 				double coinOneVolume = principalInr / coinPriceInInr;
 
 				// Go BTC market
@@ -62,8 +81,11 @@ public class KoinexTrade {
 					for (CoinBtc coinInBtc : coinsInBtc) {
 						String coinTwoName = coinInBtc.getName();
 						if (SUPPORTED_COIN_TO_TRADE.contains(coinTwoName)) {
-							double coinTwoVolume = coinOneVolume / coinInBtc.getValue();
-							double soldInInr = coinTwoVolume * getPriceOf(coinsInInr, coinTwoName);
+							double coinTwoVolume = coinOneVolume
+									/ (realTimeFetch ? coinInBtc.getLowestAskPrice() : coinInBtc.getLastTradedPrice());
+							double soldInInr = coinTwoVolume
+									* (realTimeFetch ? getHighestBidPriceOf(coinsInInr, coinTwoName)
+											: getLastTradePriceOf(coinsInInr, coinTwoName));
 							double profit = soldInInr - principalInr;
 							trades.add(new Trade(principalInr, coinOneName, coinOneVolume, coinTwoName, coinTwoVolume,
 									soldInInr, profit));
@@ -74,9 +96,11 @@ public class KoinexTrade {
 					for (CoinBtc coinInBtc : coinsInBtc) {
 						String name = coinInBtc.getName();
 						if (name.equals(coinOneName)) {
-							double priceInBtc = coinInBtc.getValue();
+							double priceInBtc = realTimeFetch ? coinInBtc.getHighestBidPrice()
+									: coinInBtc.getLastTradedPrice();
 							double coinTwoVolume = coinOneVolume * priceInBtc;
-							double soldInInr = coinTwoVolume * getPriceOf(coinsInInr, "BTC");
+							double soldInInr = coinTwoVolume * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, "BTC")
+									: getLastTradePriceOf(coinsInInr, "BTC"));
 							double profit = soldInInr - principalInr;
 							trades.add(new Trade(principalInr, coinOneName, coinOneVolume, "BTC", coinTwoVolume,
 									soldInInr, profit));
@@ -91,8 +115,11 @@ public class KoinexTrade {
 					for (CoinEth coinInEth : coinsInEth) {
 						String coinTwoName = coinInEth.getName();
 						if (SUPPORTED_COIN_TO_TRADE.contains(coinTwoName)) {
-							double coinTwoVolume = coinOneVolume / coinInEth.getValue();
-							double soldInInr = coinTwoVolume * getPriceOf(coinsInInr, coinTwoName);
+							double coinTwoVolume = coinOneVolume
+									/ (realTimeFetch ? coinInEth.getLowestAskPrice() : coinInEth.getLastTradedPrice());
+							double soldInInr = coinTwoVolume
+									* (realTimeFetch ? getHighestBidPriceOf(coinsInInr, coinTwoName)
+											: getLastTradePriceOf(coinsInInr, coinTwoName));
 							double profit = soldInInr - principalInr;
 							trades.add(new Trade(principalInr, coinOneName, coinOneVolume, coinTwoName, coinTwoVolume,
 									soldInInr, profit));
@@ -103,9 +130,12 @@ public class KoinexTrade {
 					for (CoinEth coinInEth : coinsInEth) {
 						String name = coinInEth.getName();
 						if (name.equals(coinOneName)) {
-							double priceInEth = coinInEth.getValue();
+							double priceInEth = realTimeFetch ? coinInEth.getHighestBidPrice()
+									: coinInEth.getLastTradedPrice();
+							;
 							double coinTwoVolume = coinOneVolume * priceInEth;
-							double soldInInr = coinTwoVolume * getPriceOf(coinsInInr, "ETH");
+							double soldInInr = coinTwoVolume * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, "ETH")
+									: getLastTradePriceOf(coinsInInr, "ETH"));
 							double profit = soldInInr - principalInr;
 							trades.add(new Trade(principalInr, coinOneName, coinOneVolume, "ETH", coinTwoVolume,
 									soldInInr, profit));
@@ -120,8 +150,11 @@ public class KoinexTrade {
 					for (CoinXrp coinInXrp : coinsInXrp) {
 						String coinTwoName = coinInXrp.getName();
 						if (SUPPORTED_COIN_TO_TRADE.contains(coinTwoName)) {
-							double coinTwoVolume = coinOneVolume / coinInXrp.getValue();
-							double soldInInr = coinTwoVolume * getPriceOf(coinsInInr, coinTwoName);
+							double coinTwoVolume = coinOneVolume
+									/ (realTimeFetch ? coinInXrp.getLowestAskPrice() : coinInXrp.getLastTradedPrice());
+							double soldInInr = coinTwoVolume
+									* (realTimeFetch ? getHighestBidPriceOf(coinsInInr, coinTwoName)
+											: getLastTradePriceOf(coinsInInr, coinTwoName));
 							double profit = soldInInr - principalInr;
 							trades.add(new Trade(principalInr, coinOneName, coinOneVolume, coinTwoName, coinTwoVolume,
 									soldInInr, profit));
@@ -132,9 +165,11 @@ public class KoinexTrade {
 					for (CoinXrp coinInXrp : coinsInXrp) {
 						String name = coinInXrp.getName();
 						if (name.equals(coinOneName)) {
-							double priceInXrp = coinInXrp.getValue();
+							double priceInXrp = realTimeFetch ? coinInXrp.getHighestBidPrice()
+									: coinInXrp.getLastTradedPrice();
 							double coinTwoVolume = coinOneVolume * priceInXrp;
-							double soldInInr = coinTwoVolume * getPriceOf(coinsInInr, "XRP");
+							double soldInInr = coinTwoVolume * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, "XRP")
+									: getLastTradePriceOf(coinsInInr, "XRP"));
 							double profit = soldInInr - principalInr;
 							trades.add(new Trade(principalInr, coinOneName, coinOneVolume, "XRP", coinTwoVolume,
 									soldInInr, profit));
@@ -153,10 +188,11 @@ public class KoinexTrade {
 		return trades;
 	}
 
-	public static void main(String[] args) {
-		double principal = 10000;
-		KoinexTrade koinexTrade = new KoinexTrade();
-		koinexTrade.startTrade(principal);
+	public boolean isRealTimeFetch() {
+		return realTimeFetch;
 	}
 
+	public void setRealTimeFetch(boolean realTimeFetch) {
+		this.realTimeFetch = realTimeFetch;
+	}
 }

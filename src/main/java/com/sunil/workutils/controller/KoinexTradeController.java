@@ -15,8 +15,10 @@ import com.sunil.workutils.koinex.model.Trade;
 public class KoinexTradeController {
 
 	@RequestMapping(value = "/trade", method = RequestMethod.POST)
-	public String create(Model model, @RequestParam("principal_amount") String input) {
+	public String create(Model model, @RequestParam("principal_amount") String input,
+			@RequestParam(value = "is_real_time", required = false) String isRealTime) {
 		KoinexTrade koinexTrade = new KoinexTrade();
+		koinexTrade.setRealTimeFetch(isRealTime != null);
 		double principalInr = Double.parseDouble(input);
 		ArrayList<Trade> trades = koinexTrade.startTrade(principalInr);
 		model.addAttribute("principal", input);
