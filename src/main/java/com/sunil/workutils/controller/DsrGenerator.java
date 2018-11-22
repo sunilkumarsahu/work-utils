@@ -33,6 +33,12 @@ public class DsrGenerator {
 				} catch (ArrayIndexOutOfBoundsException e) {
 					continue;
 				}
+				if (cl.endsWith("\r")) {
+					cl = cl.substring(0, cl.length() - 1);
+				}
+				if (desc.endsWith("\r")) {
+					desc = desc.substring(0, desc.length() - 1);
+				}
 				if (desc.endsWith(".")) {
 					// Remove the full stop from desc as its going to be list item
 					desc = desc.substring(0, desc.length() - 1);
