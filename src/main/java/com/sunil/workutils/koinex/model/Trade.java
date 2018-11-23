@@ -9,8 +9,13 @@ public class Trade {
 	private final double soldInInr;
 	private final double profit;
 
+	private final double buyCoinOneAt;
+	private final double buyCoinTwoAt;
+	private final double sellCoinTwoAt;
+
 	public Trade(double principalInr, String coinOneName, double coinOneVolume, String coinTwoName,
-	    double coinTwoVolume, double soldInInr, double profit) {
+			double coinTwoVolume, double soldInInr, double profit, double buyCoinOneAt, double buyCoinTwoAt,
+			double sellCoinTwoAt) {
 		this.principalInr = principalInr;
 		this.coinOneName = coinOneName;
 		this.coinOneVolume = coinOneVolume;
@@ -18,6 +23,10 @@ public class Trade {
 		this.coinTwoVolume = coinTwoVolume;
 		this.soldInInr = soldInInr;
 		this.profit = profit;
+
+		this.buyCoinOneAt = buyCoinOneAt;
+		this.buyCoinTwoAt = buyCoinTwoAt;
+		this.sellCoinTwoAt = sellCoinTwoAt;
 	}
 
 	public double getPrincipalInr() {
@@ -48,6 +57,18 @@ public class Trade {
 		return profit;
 	}
 
+	public double getBuyCoinOneAt() {
+		return buyCoinOneAt;
+	}
+
+	public double getBuyCoinTwoAt() {
+		return buyCoinTwoAt;
+	}
+
+	public double getSellCoinTwoAt() {
+		return sellCoinTwoAt;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -62,5 +83,4 @@ public class Trade {
 		sb.append("Sold price: " + soldInInr);
 		return sb.toString();
 	}
-
 }

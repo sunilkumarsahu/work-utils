@@ -83,24 +83,25 @@ public class KoinexTrade {
 	}
 
 	private void doTrade(String marketName, String coinOneName, double coinOneVolume, ArrayList<? extends Coin> coinsIn,
-			ArrayList<CoinInr> coinsInInr, double principalInr, ArrayList<Trade> trades) {
+			ArrayList<CoinInr> coinsInInr, double principalInr, ArrayList<Trade> trades, double buyCoinOneAt) {
 		if (coinOneName.equals(marketName)) {
 			// Buy other coin with Market coin.
 			for (Coin coin : coinsIn) {
 				String coinTwoName = coin.getName();
 				if (SUPPORTED_COIN_TO_TRADE.contains(coinTwoName)) {
-					double coinTwoVolume = coinOneVolume
-							/ (realTimeFetch ? coin.getLowestAskPrice() : coin.getLastTradedPrice());
+					double buyCoinTwoAt = (realTimeFetch ? coin.getLowestAskPrice() : coin.getLastTradedPrice());
+					double coinTwoVolume = coinOneVolume / buyCoinTwoAt;
 					if (coinTwoVolume == 0 || Double.isInfinite(coinTwoVolume)) {
 						continue;
 					}
-					double soldInInr = coinTwoVolume * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, coinTwoName)
+					double sellCoinTwoAt = (realTimeFetch ? getHighestBidPriceOf(coinsInInr, coinTwoName)
 							: getLastTradePriceOf(coinsInInr, coinTwoName));
+					double soldInInr = coinTwoVolume * sellCoinTwoAt;
 					// Transaction fee.
 					double netSold = soldInInr - (soldInInr * SELL_FEE);
 					double profit = netSold - principalInr;
 					trades.add(new Trade(principalInr, coinOneName, coinOneVolume, coinTwoName, coinTwoVolume,
-							soldInInr, profit));
+							soldInInr, profit, buyCoinOneAt, buyCoinTwoAt, sellCoinTwoAt));
 				}
 			}
 		} else {
@@ -113,13 +114,14 @@ public class KoinexTrade {
 					if (coinTwoVolume == 0 || Double.isInfinite(coinTwoVolume)) {
 						continue;
 					}
-					double soldInInr = coinTwoVolume * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, marketName)
+					double sellCoinTwoAt = (realTimeFetch ? getHighestBidPriceOf(coinsInInr, marketName)
 							: getLastTradePriceOf(coinsInInr, marketName));
+					double soldInInr = coinTwoVolume * sellCoinTwoAt;
 					// Transaction fee.
 					double netSold = soldInInr - (soldInInr * SELL_FEE);
 					double profit = netSold - principalInr;
 					trades.add(new Trade(principalInr, coinOneName, coinOneVolume, marketName, coinTwoVolume, soldInInr,
-							profit));
+							profit, buyCoinOneAt, priceInMarketCoin, sellCoinTwoAt));
 				}
 			}
 		}
@@ -142,15 +144,18 @@ public class KoinexTrade {
 
 				// Go BTC market
 				ArrayList<CoinBtc> coinsInBtc = koinexDataFetcher.getCoinInBtc();
-				doTrade("BTC", coinOneName, coinOneVolume, coinsInBtc, coinsInInr, principalInr, trades);
+				doTrade("BTC", coinOneName, coinOneVolume, coinsInBtc, coinsInInr, principalInr, trades,
+						coinPriceInInr);
 
 				// Go ETH market.
 				ArrayList<CoinEth> coinsInEth = koinexDataFetcher.getCoinInEth();
-				doTrade("ETH", coinOneName, coinOneVolume, coinsInEth, coinsInInr, principalInr, trades);
+				doTrade("ETH", coinOneName, coinOneVolume, coinsInEth, coinsInInr, principalInr, trades,
+						coinPriceInInr);
 
 				// Go XRP market.
 				ArrayList<CoinXrp> coinsInXrp = koinexDataFetcher.getCoinInXrp();
-				doTrade("XRP", coinOneName, coinOneVolume, coinsInXrp, coinsInInr, principalInr, trades);
+				doTrade("XRP", coinOneName, coinOneVolume, coinsInXrp, coinsInInr, principalInr, trades,
+						coinPriceInInr);
 			}
 		}
 

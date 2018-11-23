@@ -166,12 +166,16 @@ h1, h2, h3, h4, h5, h6 {
 				</label>
 			</div>
 
-			<table class="w3-padding w3-margin-table" border="4" style="width: 100%">
+			<table class="w3-padding w3-margin-table" border="4"
+				style="width: 100%">
 				<tr>
-					<th>Coin1 (buy with INR)</th>
+					<th>Coin1</th>
+					<th>Buy Coin1 @</th>
 					<th>Coin1 Volume</th>
-					<th>Coin2 (buy with Coin1)</th>
+					<th>Coin2</th>
+					<th>Buy Coin2 @ with Coin1</th>
 					<th>Coin2 Volume</th>
+					<th>Sell Coin2 @</th>
 					<th>Sell Price</th>
 					<th>Profit in INR</th>
 				</tr>
@@ -179,9 +183,12 @@ h1, h2, h3, h4, h5, h6 {
 				<c:forEach items="${trades}" var="trade">
 					<tr>
 						<td align="center">${trade.coinOneName}</td>
+						<td align="center">${trade.buyCoinOneAt}</td>
 						<td align="center">${trade.coinOneVolume}</td>
 						<td align="center">${trade.coinTwoName}</td>
+						<td align="center">${trade.buyCoinTwoAt}</td>
 						<td align="center">${trade.coinTwoVolume}</td>
+						<td align="center">${trade.sellCoinTwoAt}</td>
 						<td align="center">${trade.soldInInr}</td>
 						<td align="center">${trade.profit}</td>
 					</tr>
