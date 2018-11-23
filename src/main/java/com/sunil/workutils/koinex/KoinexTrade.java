@@ -80,23 +80,21 @@ public class KoinexTrade {
 		throw new RuntimeException("No highest bid available for the coin " + coinType);
 	}
 
-	private void doTrade(String marketName, String coinOneName, double coinOneVolume,
-	    ArrayList<? extends Coin> coinsIn, ArrayList<CoinInr> coinsInInr, double principalInr,
-	    ArrayList<Trade> trades) {
+	private void doTrade(String marketName, String coinOneName, double coinOneVolume, ArrayList<? extends Coin> coinsIn,
+			ArrayList<CoinInr> coinsInInr, double principalInr, ArrayList<Trade> trades) {
 		if (coinOneName.equals(marketName)) {
 			// Buy other coin with Market coin.
 			for (Coin coin : coinsIn) {
 				String coinTwoName = coin.getName();
 				if (SUPPORTED_COIN_TO_TRADE.contains(coinTwoName)) {
 					double coinTwoVolume = coinOneVolume
-					    / (realTimeFetch ? coin.getLowestAskPrice() : coin.getLastTradedPrice());
+							/ (realTimeFetch ? coin.getLowestAskPrice() : coin.getLastTradedPrice());
 					// TODO(sunil) compute transaction fee.
-					double soldInInr = coinTwoVolume
-					    * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, coinTwoName)
-					        : getLastTradePriceOf(coinsInInr, coinTwoName));
+					double soldInInr = coinTwoVolume * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, coinTwoName)
+							: getLastTradePriceOf(coinsInInr, coinTwoName));
 					double profit = soldInInr - principalInr;
 					trades.add(new Trade(principalInr, coinOneName, coinOneVolume, coinTwoName, coinTwoVolume,
-					    soldInInr, profit));
+							soldInInr, profit));
 				}
 			}
 		} else {
@@ -104,16 +102,14 @@ public class KoinexTrade {
 			for (Coin coin : coinsIn) {
 				String name = coin.getName();
 				if (name.equals(coinOneName)) {
-					double priceInMarketCoin = realTimeFetch ? coin.getHighestBidPrice()
-					    : coin.getLastTradedPrice();
+					double priceInMarketCoin = realTimeFetch ? coin.getHighestBidPrice() : coin.getLastTradedPrice();
 					double coinTwoVolume = coinOneVolume * priceInMarketCoin;
 					// TODO(sunil) compute transaction fee.
-					double soldInInr = coinTwoVolume
-					    * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, marketName)
-					        : getLastTradePriceOf(coinsInInr, marketName));
+					double soldInInr = coinTwoVolume * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, marketName)
+							: getLastTradePriceOf(coinsInInr, marketName));
 					double profit = soldInInr - principalInr;
-					trades.add(new Trade(principalInr, coinOneName, coinOneVolume, marketName, coinTwoVolume,
-					    soldInInr, profit));
+					trades.add(new Trade(principalInr, coinOneName, coinOneVolume, marketName, coinTwoVolume, soldInInr,
+							profit));
 				}
 			}
 		}
@@ -126,8 +122,7 @@ public class KoinexTrade {
 			String coinOneName = coinInr.getName();
 			if (SUPPORTED_COIN_BUY_WITH_INR.contains(coinOneName)) {
 				// buy in inr
-				double coinPriceInInr = realTimeFetch ? coinInr.getLowestAskPrice()
-				    : coinInr.getLastTradedPrice();
+				double coinPriceInInr = realTimeFetch ? coinInr.getLowestAskPrice() : coinInr.getLastTradedPrice();
 				// TODO(sunil) Compute transaction fee.
 				double coinOneVolume = principalInr / coinPriceInInr;
 
