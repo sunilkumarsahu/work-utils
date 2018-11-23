@@ -12,6 +12,8 @@ import com.sunil.workutils.koinex.model.Trade;
 
 public class KoinexTrade {
 	private boolean realTimeFetch = true;
+	private static final double BUY_FEE = 0.0015;
+	private static final double SELL_FEE = 0.0015;
 
 	// Add only the coins can be trade with other coins.
 	private static final ArrayList<String> SUPPORTED_COIN_BUY_WITH_INR = new ArrayList<String>() {
@@ -89,10 +91,14 @@ public class KoinexTrade {
 				if (SUPPORTED_COIN_TO_TRADE.contains(coinTwoName)) {
 					double coinTwoVolume = coinOneVolume
 							/ (realTimeFetch ? coin.getLowestAskPrice() : coin.getLastTradedPrice());
-					// TODO(sunil) compute transaction fee.
+					if (coinTwoVolume == 0 || Double.isInfinite(coinTwoVolume)) {
+						continue;
+					}
 					double soldInInr = coinTwoVolume * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, coinTwoName)
 							: getLastTradePriceOf(coinsInInr, coinTwoName));
-					double profit = soldInInr - principalInr;
+					// Transaction fee.
+					double netSold = soldInInr - (soldInInr * SELL_FEE);
+					double profit = netSold - principalInr;
 					trades.add(new Trade(principalInr, coinOneName, coinOneVolume, coinTwoName, coinTwoVolume,
 							soldInInr, profit));
 				}
@@ -104,10 +110,14 @@ public class KoinexTrade {
 				if (name.equals(coinOneName)) {
 					double priceInMarketCoin = realTimeFetch ? coin.getHighestBidPrice() : coin.getLastTradedPrice();
 					double coinTwoVolume = coinOneVolume * priceInMarketCoin;
-					// TODO(sunil) compute transaction fee.
+					if (coinTwoVolume == 0 || Double.isInfinite(coinTwoVolume)) {
+						continue;
+					}
 					double soldInInr = coinTwoVolume * (realTimeFetch ? getHighestBidPriceOf(coinsInInr, marketName)
 							: getLastTradePriceOf(coinsInInr, marketName));
-					double profit = soldInInr - principalInr;
+					// Transaction fee.
+					double netSold = soldInInr - (soldInInr * SELL_FEE);
+					double profit = netSold - principalInr;
 					trades.add(new Trade(principalInr, coinOneName, coinOneVolume, marketName, coinTwoVolume, soldInInr,
 							profit));
 				}
@@ -123,8 +133,12 @@ public class KoinexTrade {
 			if (SUPPORTED_COIN_BUY_WITH_INR.contains(coinOneName)) {
 				// buy in inr
 				double coinPriceInInr = realTimeFetch ? coinInr.getLowestAskPrice() : coinInr.getLastTradedPrice();
-				// TODO(sunil) Compute transaction fee.
-				double coinOneVolume = principalInr / coinPriceInInr;
+				if (coinPriceInInr <= 0) {
+					continue;
+				}
+				// Transaction fee.
+				double principalInrAfterFee = principalInr - (principalInr * BUY_FEE);
+				double coinOneVolume = principalInrAfterFee / coinPriceInInr;
 
 				// Go BTC market
 				ArrayList<CoinBtc> coinsInBtc = koinexDataFetcher.getCoinInBtc();
